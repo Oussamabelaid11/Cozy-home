@@ -1,0 +1,21 @@
+[
+  {
+    "id": "example-product",
+    "name": "Exemple Produit",
+    "name_ar": "مثال منتج",
+    "category": "Maison",
+    "price": 49.900,
+    "cost": 18.000,
+    "compare_price": 79.900,
+    "images": ["images/example-1.jpg"],
+    "description": "Description complète du produit en français. Qualité premium, livraison rapide partout en Tunisie.",
+    "description_ar": "وصف كامل لـمنتج بالعرةية. جودة ممتازة، توصيل سريع.",
+    "highlights": ["Qualité premium", "Livraison 24-48h", "Paiement à la livraison"],
+    "whatsapp_msg": "Salam! 🌟\nJe veux commander: *Exemple Produit* - 49,900 TND\nMon adresse: [VILLE]\nCozy Home 🏠 cozy-home.tn",
+    "shipper_id": "",
+    "active": false,
+    "featured": false,
+    "added_date": "2026-04-12",
+    "score": 0
+  }
+]

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalogue — Cozy Home 🏠</title>
+  <meta name="description" content="Tous nos produits déco et accessoires maison. Filtrez par catégorie et commandez via WhatsApp.">
+  <meta name="theme-color" content="#C17B4E">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo">
+        <div class="nav__logo-icon">🏠</div>
+        <span>Cozy Home</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/products.html" style="color:var(--primary)">Produits</a></li>
+        <li><a href="/products.html?cat=Maison">Maison</a></li>
+        <li><a href="/products.html?cat=Cuisine">Cuisine</a></li>
+        <li><a href="/products.html?cat=Déco">Déco</a></li>
+      </ul>
+      <a href="https://wa.me/21600000000" target="_blank" rel="noopener" class="nav__cta">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.073.528 4.024 1.456 5.727L.057 23.158a.5.5 0 00.621.621l5.378-1.41A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-5.002-1.367l-.358-.213-3.712.974.99-3.614-.234-.372A9.818 9.818 0 1112 21.818z"/>
+        </svg>
+        Commander
+      </a>
+      <button class="nav__mobile-toggle" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── PAGE HEADER ───────────────────────────────────── -->
+<div style="background:var(--surface-warm);border-bottom:1px solid var(--border);padding:32px 0">
+  <div class="container">
+    <h1 style="font-size:1.8rem;margin-bottom:6px">🛍️ Tous les produits</h1>
+    <p style="color:var(--text-muted)">Découvrez notre sélection — livraison rapide, paiement à la livraison</p>
+  </div>
+</div>
+
+<!-- ── CATALOG ───────────────────────────────────────── -->
+<section class="section-sm">
+  <div class="container">
+    <!-- Search -->
+    <div class="search-wrap">
+      <input type="search" id="search-input" placeholder="Rechercher un produit...">
+    </div>
+
+    <!-- Category filters -->
+    <div class="filters" id="filter-bar">
+      <button class="filter-btn active" data-cat="">Tout voir</button>
+      <button class="filter-btn" data-cat="Maison">🛋️ Maison</button>
+      <button class="filter-btn" data-cat="Cuisine">🍳 Cuisine</button>
+      <button class="filter-btn" data-cat="Déco">🌿 Déco</button>
+      <button class="filter-btn" data-cat="Chambre">🛏️ Chambre</button>
+      <button class="filter-btn" data-cat="Salle de bain">🚿 Salle de bain</button>
+      <button class="filter-btn" data-cat="Jardin">🌸 Jardin</button>
+    </div>
+
+    <!-- Results count -->
+    <div id="results-count" style="font-size:.85rem;color:var(--text-muted);margin-bottom:16px"></div>
+
+    <!-- Product grid -->
+    <div class="product-grid" id="catalog-grid">
+      <div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-muted)">
+        <div style="font-size:2rem;margin-bottom:12px">⏳</div>
+        <p>Chargement des produits...</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <div class="footer__logo">🏠 Cozy Home</div>
+        <p class="footer__tagline">Votre boutique déco & maison. Livraison rapide, paiement à la livraison.</p>
+      </div>
+      <div class="footer__col">
+        <h4>Catégories</h4>
+        <ul>
+          <li><a href="/products.html?cat=Maison">Maison</a></li>
+          <li><a href="/products.html?cat=Cuisine">Cuisine</a></li>
+          <li><a href="/products.html?cat=Déco">Déco</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Service client</h4>
+        <ul>
+          <li><a href="https://wa.me/21600000000" target="_blank">WhatsApp</a></li>
+          <li><a href="#">Livraison & retours</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Livraison</h4>
+        <ul>
+          <li><a href="#">🇹🇳 Tunisie</a></li>
+          <li><a href="#">🇩🇿 Algérie</a></li>
+          <li><a href="#">🇲🇦 Maroc</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Cozy Home — cozy-home.tn</span>
+      <span>Fait avec ❤️ en Tunisie 🇹🇳</span>
+    </div>
+  </div>
+</footer>
+
+<div class="footer__wa-float">
+  <a href="https://wa.me/21600000000?text=Salam!%20Je%20veux%20passer%20une%20commande%20Cozy%20Home%20🏠"
+     target="_blank" rel="noopener" title="Commander sur WhatsApp">💬</a>
+</div>
+
+<script src="tracker.js"></script>
+<script src="main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  // Parse URL params
+  const params = new URLSearchParams(location.search);
+  const initCat = params.get('cat') || '';
+
+  // Activate the correct filter button
+  if (initCat) {
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.cat === initCat);
+    });
+  }
+
+  // Load & render products
+  const all = await loadProducts();
+  let products = all.filter(p => p.active !== false);
+  if (initCat) products = products.filter(p => p.category === initCat);
+
+  const grid = document.getElementById('catalog-grid');
+  const countEl = document.getElementById('results-count');
+
+  function render(list) {
+    countEl.textContent = `${list.length} produit${list.length !== 1 ? 's' : ''} trouvé${list.length !== 1 ? 's' : ''}`;
+    grid.innerHTML = list.length
+      ? list.map(productCardHTML).join('')
+      : `<div class="empty-state" style="grid-column:1/-1">
+           <div class="empty-state__icon">🔍</div>
+           <h3>Aucun produit trouvé</h3>
+           <p>Essayez une autre catégorie ou revenez bientôt.</p>
+         </div>`;
+  }
+
+  render(products);
+
+  // Search
+  document.getElementById('search-input').addEventListener('input', e => {
+    const q = e.target.value.toLowerCase();
+    const filtered = q
+      ? products.filter(p =>
+          p.name.toLowerCase().includes(q) ||
+          (p.name_ar || '').includes(q) ||
+          (p.description || '').toLowerCase().includes(q))
+      : products;
+    render(filtered);
+    window._track && _track('search', { query: q, results: filtered.length });
+  });
+
+  // Filters
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      products = all.filter(p => p.active !== false);
+      if (cat) products = products.filter(p => p.category === cat);
+      render(products);
+      // Update URL without reload
+      const url = new URL(location.href);
+      cat ? url.searchParams.set('cat', cat) : url.searchParams.delete('cat');
+      history.replaceState({}, '', url);
+      window._track && _track('filter', { category: cat });
+    });
+  });
+});
+</script>
+</body>
+</html>

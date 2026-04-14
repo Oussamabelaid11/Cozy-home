@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Cozy Home 📊</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+  <style>
+    body { background: #1a1210; color: #f0e8df; font-family: var(--font); }
+    .dash-nav {
+      background: #2d1b0e;
+      border-bottom: 1px solid rgba(193,123,78,.3);
+      padding: 14px 0;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .dash-nav__inner { display: flex; align-items: center; justify-content: space-between; }
+    .dash-nav__logo { font-weight: 700; color: var(--primary); font-size: 1.1rem; }
+    .dash-nav__links { display: flex; gap: 20px; }
+    .dash-nav__links a { font-size: .85rem; color: rgba(240,232,223,.6); transition: color .2s; }
+    .dash-nav__links a:hover { color: var(--primary); }
+    .dash-section { padding: 32px 0; }
+    .dash-section h2 { font-size: 1rem; font-weight: 700; color: rgba(240,232,223,.5); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 16px; }
+    .stat-card { background: #2d1b0e; border: 1px solid rgba(193,123,78,.2); border-radius: var(--radius); padding: 20px; }
+    .stat-card__label { font-size: .78rem; color: rgba(240,232,223,.5); font-weight: 600; margin-bottom: 8px; }
+    .stat-card__value { font-size: 1.9rem; font-weight: 700; color: var(--primary); }
+    .stat-card__sub { font-size: .75rem; color: rgba(240,232,223,.4); margin-top: 4px; }
+    .stat-card__trend { font-size: .78rem; font-weight: 700; padding: 2px 8px; border-radius: 50px; margin-top: 6px; display: inline-block; }
+    .trend-up { background: rgba(37,211,102,.15); color: #25D366; }
+    .trend-dn { background: rgba(229,57,53,.15); color: #E53935; }
+    .table-wrap { background: #2d1b0e; border: 1px solid rgba(193,123,78,.2); border-radius: var(--radius); overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+    thead th { background: rgba(193,123,78,.15); padding: 12px 16px; text-align: left; font-size: .75rem; font-weight: 700; color: rgba(240,232,223,.5); text-transform: uppercase; letter-spacing: .08em; }
+    tbody td { padding: 12px 16px; border-top: 1px solid rgba(193,123,78,.1); color: rgba(240,232,223,.85); }
+    tbody tr:hover td { background: rgba(193,123,78,.05); }
+    .badge { display: inline-block; padding: 2px 9px; border-radius: 50px; font-size: .7rem; font-weight: 700; }
+    .badge-wa { background: rgba(37,211,102,.15); color: #25D366; }
+    .badge-confirmed { background: rgba(193,123,78,.2); color: var(--primary); }
+    .badge-failed { background: rgba(229,57,53,.15); color: #E53935; }
+    .funnel-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .funnel-label { font-size: .82rem; color: rgba(240,232,223,.6); width: 140px; flex-shrink: 0; }
+    .funnel-track { flex: 1; height: 20px; background: rgba(255,255,255,.05); border-radius: 4px; overflow: hidden; }
+    .funnel-fill { height: 100%; background: var(--primary); border-radius: 4px; transition: width .6s ease; }
+    .funnel-count { font-size: .8rem; color: rgba(240,232,223,.5); width: 48px; text-align: right; }
+    .chart-row { display: flex; align-items: flex-end; gap: 8px; height: 120px; margin-bottom: 8px; }
+    .chart-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+    .chart-bar { width: 100%; background: var(--primary); border-radius: 4px 4px 0 0; min-height: 4px; transition: height .4s ease; }
+    .chart-label { font-size: .65rem; color: rgba(240,232,223,.4); }
+    .product-score-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(193,123,78,.1); }
+    .score-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+    .score-high { background: rgba(37,211,102,.2); color: #25D366; }
+    .score-mid  { background: rgba(212,160,85,.2); color: var(--gold); }
+    .score-low  { background: rgba(229,57,53,.15); color: #E53935; }
+  </style>
+</head>
+<body>
+
+<!-- ── DASH NAV ──────────────────────────────────────── -->
+<nav class="dash-nav">
+  <div class="container">
+    <div class="dash-nav__inner">
+      <div class="dash-nav__logo">📊 Cozy Home — Dashboard</div>
+      <div class="dash-nav__links">
+        <a href="/">🏠 Boutique</a>
+        <a href="/products.html">🛍️ Produits</a>
+        <a href="https://wa.me/21600000000" target="_blank">💬 WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ── DATE RANGE ────────────────────────────────────── -->
+<div style="background:#2d1b0e;border-bottom:1px solid rgba(193,123,78,.2);padding:12px 0">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <span style="font-size:.82rem;color:rgba(240,232,223,.5)">Dernière mise à jour: </span>
+        <span id="last-update" style="font-size:.82rem;color:var(--primary);font-weight:600">—</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="filter-btn active" data-range="7" onclick="setRange(7,this)" style="background:rgba(193,123,78,.2);border-color:rgba(193,123,78,.4);color:var(--primary)">7j</button>
+        <button class="filter-btn" data-range="30" onclick="setRange(30,this)">30j</button>
+        <button class="filter-btn" data-range="90" onclick="setRange(90,this)">90j</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── KPI STATS ──────────────────────────────────────── -->
+<div class="dash-section">
+  <div class="container">
+    <h2>📈 Chiffres clés</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px">
+      <div class="stat-card">
+        <div class="stat-card__label">Vues de pages</div>
+        <div class="stat-card__value" id="kpi-pageviews">—</div>
+        <div class="stat-card__sub">Sessions visiteurs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__label">Produits consultés</div>
+        <div class="stat-card__value" id="kpi-product-views">—</div>
+        <div class="stat-card__sub">product_view events</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__label">Clics WhatsApp</div>
+        <div class="stat-card__value" id="kpi-wa-clicks">—</div>
+        <div class="stat-card__sub">wa_click events</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__label">Taux clic WA</div>
+        <div class="stat-card__value" id="kpi-wa-rate">—</div>
+        <div class="stat-card__sub">wa_clicks / product_views</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__label">Commandes (log)</div>
+        <div class="stat-card__value" id="kpi-orders">—</div>
+        <div class="stat-card__sub">Confirmées par bot</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__label">CA estimé</div>
+        <div class="stat-card__value" id="kpi-revenue">—</div>
+        <div class="stat-card__sub">TND (hors frais)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FUNNEL ─────────────────────────────────────────── -->
+<div class="dash-section">
+  <div class="container">
+    <h2>🔽 Funnel de conversion</h2>
+    <div style="background:#2d1b0e;border:1px solid rgba(193,123,78,.2);border-radius:var(--radius);padding:24px">
+      <div class="funnel-bar">
+        <div class="funnel-label">Page vue</div>
+        <div class="funnel-track"><div class="funnel-fill" id="f-pageview" style="width:100%"></div></div>
+        <div class="funnel-count" id="fc-pageview">—</div>
+      </div>
+      <div class="funnel-bar">
+        <div class="funnel-label">Produit vu</div>
+        <div class="funnel-track"><div class="funnel-fill" id="f-product" style="width:0%;background:var(--gold)"></div></div>
+        <div class="funnel-count" id="fc-product">—</div>
+      </div>
+      <div class="funnel-bar">
+        <div class="funnel-label">Clic WA</div>
+        <div class="funnel-track"><div class="funnel-fill" id="f-wa" style="width:0%;background:var(--wa)"></div></div>
+        <div class="funnel-count" id="fc-wa">—</div>
+      </div>
+      <div class="funnel-bar">
+        <div class="funnel-label">Commande conf.</div>
+        <div class="funnel-track"><div class="funnel-fill" id="f-order" style="width:0%;background:#25D366"></div></div>
+        <div class="funnel-count" id="fc-order">—</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── EVENTS TABLE ───────────────────────────────────── -->
+<div class="dash-section">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h2 style="margin:0">📋 Événements récents</h2>
+      <button onclick="clearEvents()" style="font-size:.75rem;color:rgba(229,57,53,.7);cursor:pointer;border:1px solid rgba(229,57,53,.3);padding:4px 12px;border-radius:50px;background:none">
+        Effacer les logs
+      </button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Heure</th>
+            <th>Événement</th>
+            <th>Page</th>
+            <th>Données</th>
+          </tr>
+        </thead>
+        <tbody id="events-table">
+          <tr><td colspan="4" style="text-align:center;padding:32px;color:rgba(240,232,223,.3)">Aucun événement enregistré — visitez la boutique d'abord.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ── PRODUCT PERFORMANCE ────────────────────────────── -->
+<div class="dash-section">
+  <div class="container">
+    <h2>🏆 Performance produits</h2>
+    <div style="background:#2d1b0e;border:1px solid rgba(193,123,78,.2);border-radius:var(--radius);padding:20px" id="product-perf">
+      <div style="color:rgba(240,232,223,.3);text-align:center;padding:20px">Chargement des produits...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ORDERS LOG ─────────────────────────────────────── -->
+<div class="dash-section">
+  <div class="container">
+    <h2>📦 Log commandes</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Produit</th>
+            <th>Prix</th>
+            <th>Statut</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody id="orders-table">
+          <tr><td colspan="5" style="text-align:center;padding:32px;color:rgba(240,232,223,.3)">
+            Aucune commande — les commandes confirmées apparaissent ici via Make.com.
+          </td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<div style="border-top:1px solid rgba(193,123,78,.2);padding:20px 0;text-align:center">
+  <div class="container">
+    <span style="font-size:.78rem;color:rgba(240,232,223,.3)">
+      Cozy Home Dashboard · cozy-home.tn · Données stockées localement (localStorage)
+    </span>
+  </div>
+</div>
+
+<script src="tracker.js"></script>
+<script>
+// ── Dashboard data reader ─────────────────────────────
+let currentRange = 7;
+
+function setRange(days, btn) {
+  currentRange = days;
+  document.querySelectorAll('[data-range]').forEach(b => {
+    b.style.background = b === btn ? 'rgba(193,123,78,.2)' : '';
+    b.style.borderColor = b === btn ? 'rgba(193,123,78,.4)' : '';
+    b.style.color = b === btn ? 'var(--primary)' : '';
+  });
+  renderDash();
+}
+
+function getEvents(days) {
+  const all = JSON.parse(localStorage.getItem('ch_events') || '[]');
+  const cutoff = Date.now() - days * 86400000;
+  return all.filter(e => e.ts >= cutoff);
+}
+
+function getOrders() {
+  return JSON.parse(localStorage.getItem('ch_orders') || '[]');
+}
+
+function fmtNum(n) {
+  return n >= 1000 ? (n/1000).toFixed(1) + 'k' : String(n);
+}
+
+function fmtDate(ts) {
+  return new Date(ts).toLocaleString('fr-FR', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' });
+}
+
+function renderDash() {
+  const events  = getEvents(currentRange);
+  const orders  = getOrders();
+
+  // KPIs
+  const pageviews    = events.filter(e => e.event === 'page_view').length;
+  const productViews = events.filter(e => e.event === 'product_view').length;
+  const waClicks     = events.filter(e => e.event === 'wa_click').length;
+  const confirmed    = orders.filter(o => o.status === 'confirmed').length;
+  const revenue      = orders.filter(o => o.status === 'confirmed').reduce((s,o) => s + (o.price || 0), 0);
+  const waRate       = productViews > 0 ? ((waClicks / productViews) * 100).toFixed(1) + '%' : '—';
+
+  document.getElementById('kpi-pageviews').textContent    = fmtNum(pageviews);
+  document.getElementById('kpi-product-views').textContent = fmtNum(productViews);
+  document.getElementById('kpi-wa-clicks').textContent    = fmtNum(waClicks);
+  document.getElementById('kpi-wa-rate').textContent      = waRate;
+  document.getElementById('kpi-orders').textContent       = fmtNum(confirmed);
+  document.getElementById('kpi-revenue').textContent      = revenue > 0 ? revenue.toFixed(3) + ' TND' : '—';
+
+  // Funnel
+  const maxFunnel = Math.max(pageviews, 1);
+  document.getElementById('f-pageview').style.width = '100%';
+  document.getElementById('f-product').style.width  = ((productViews / maxFunnel) * 100).toFixed(1) + '%';
+  document.getElementById('f-wa').style.width       = ((waClicks    / maxFunnel) * 100).toFixed(1) + '%';
+  document.getElementById('f-order').style.width    = ((confirmed   / maxFunnel) * 100).toFixed(1) + '%';
+  document.getElementById('fc-pageview').textContent = pageviews;
+  document.getElementById('fc-product').textContent  = productViews;
+  document.getElementById('fc-wa').textContent       = waClicks;
+  document.getElementById('fc-order').textContent    = confirmed;
+
+  // Events table
+  const tbody = document.getElementById('events-table');
+  const recent = [...events].sort((a,b) => b.ts - a.ts).slice(0,50);
+  tbody.innerHTML = recent.length
+    ? recent.map(e => `
+      <tr>
+        <td>${fmtDate(e.ts)}</td>
+        <td><span class="badge badge-wa">${e.event}</span></td>
+        <td style="color:rgba(240,232,223,.5)">${e.page || '—'}</td>
+        <td style="font-size:.78rem;color:rgba(240,232,223,.4)">${e.data ? JSON.stringify(e.data).substring(0,60) : '—'}</td>
+      </tr>`).join('')
+    : `<tr><td colspan="4" style="text-align:center;padding:32px;color:rgba(240,232,223,.3)">
+        Aucun événement — visitez la boutique pour générer des données.
+      </td></tr>`;
+
+  // Product performance
+  const productCounts = {};
+  events.filter(e => e.event === 'product_view' || e.event === 'wa_click').forEach(e => {
+    const id = e.data?.product_id || 'unknown';
+    if (!productCounts[id]) productCounts[id] = { views: 0, clicks: 0 };
+    if (e.event === 'product_view') productCounts[id].views++;
+    if (e.event === 'wa_click')     productCounts[id].clicks++;
+  });
+  const perfEl = document.getElementById('product-perf');
+  const perfEntries = Object.entries(productCounts).sort((a,b) => b[1].clicks - a[1].clicks);
+  perfEl.innerHTML = perfEntries.length
+    ? perfEntries.map(([id, d]) => {
+        const rate = d.views > 0 ? ((d.clicks/d.views)*100).toFixed(0) : 0;
+        const score = Math.min(10, Math.round((d.clicks * 2 + d.views * 0.5) / 2));
+        const cls = score >= 7 ? 'score-high' : score >= 4 ? 'score-mid' : 'score-low';
+        return `<div class="product-score-row">
+          <div class="score-dot ${cls}">${score}</div>
+          <div style="flex:1">
+            <div style="font-size:.85rem;font-weight:600">${id}</div>
+            <div style="font-size:.75rem;color:rgba(240,232,223,.4)">${d.views} vues · ${d.clicks} clics WA · taux ${rate}%</div>
+          </div>
+        </div>`;
+      }).join('')
+    : `<div style="color:rgba(240,232,223,.3);text-align:center;padding:20px">Aucune donnée produit pour la période.</div>`;
+
+  // Orders table
+  const otbody = document.getElementById('orders-table');
+  otbody.innerHTML = orders.length
+    ? [...orders].sort((a,b) => b.ts - a.ts).slice(0,30).map(o => `
+        <tr>
+          <td>${fmtDate(o.ts)}</td>
+          <td>${o.product || '—'}</td>
+          <td style="color:var(--primary)">${o.price ? o.price.toFixed(3) + ' TND' : '—'}</td>
+          <td><span class="badge badge-${o.status}">${o.status}</span></td>
+          <td style="color:rgba(240,232,223,.4)">${o.source || 'WhatsApp'}</td>
+        </tr>`).join('')
+    : `<tr><td colspan="5" style="text-align:center;padding:32px;color:rgba(240,232,223,.3)">
+        Aucune commande — les commandes confirmées apparaissent ici via Make.com.
+      </td></tr>`;
+
+  // Last update
+  document.getElementById('last-update').textContent = new Date().toLocaleString('fr-FR');
+}
+
+function clearEvents() {
+  if (confirm('Effacer tous les événements de tracking ?')) {
+    localStorage.removeItem('ch_events');
+    renderDash();
+  }
+}
+
+// ── Init ──────────────────────────────────────────────
+renderDash();
+setInterval(renderDash, 30000); // auto-refresh every 30s
+</script>
+</body>
+</html>

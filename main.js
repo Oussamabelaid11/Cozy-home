@@ -6,7 +6,7 @@
 const STORE = {
   name:      'Cozy Home',
   nameAr:    'كوزي هوم',
-  wa:        '+21600000000',   // ← replace with real WhatsApp number in Phase 04
+  wa:        '+21652125949',   // ← replace with real WhatsApp number in Phase 04
   domain:    'cozy-home.tn',
   currency:  'TND',
 };
